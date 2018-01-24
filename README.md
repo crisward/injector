@@ -3,7 +3,7 @@
 
 ## What is it?
 
-Quick mess creating a very simple dependency injection system using proxy objects and object destructuring. See the `loader.js` file for the very simple concept. 
+Quick proof of concept, creating a very simple dependency injection system using proxy objects and object destructuring. See the `loader.js` file for the very simple concept. 
 
 ## What does it do?
 
