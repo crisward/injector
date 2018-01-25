@@ -6,14 +6,22 @@ module.exports = (modules=[])=>{
   // called object with all deps
   let app = new Proxy(ioc,{
     get: (target, name)=>{
+      //if(ioc[name]) return ioc[name]
+      if(!modules[name]) return {}
       return modules[name].lib ? require(modules[name].path) : require(modules[name].path)(target)
+    },
+    set: (target, name, value)=>{
+      modules[name] = value
+      injectAll()
     }
   })
 
   // inject all modules, without dependencies
-  Object.keys(modules).forEach((key)=>{
-    ioc[key] = modules[key].lib ? require(modules[key].path) : require(modules[key].path)(app)
-  })
-
+  let injectAll = ()=>{
+    Object.keys(modules).forEach((name)=>{
+      ioc[name] = modules[name].lib ? require(modules[name].path) : require(modules[name].path)(app)
+    })
+  }
+  injectAll()
   return app
 }

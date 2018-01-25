@@ -46,6 +46,12 @@ module.exports = ({Module1})=>(
 
 ```
 
+You can also add more libraries with
+
+```
+app.module4 = {path:"./modules/module4"}
+```
+
 ## Why?
 
 Using require or import in all the files in your project has a few issues.
