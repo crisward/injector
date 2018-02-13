@@ -68,4 +68,12 @@ describe("basic injector",function(){
     expect(app.module3()).to.equal("replacement")
   })
 
+  it.skip("should deal with circular dependencies",function(){
+    let app = injector()
+    app.module1 = ({module2})=> ()=> "module 1"
+    app.module2 = ({module1})=> ()=> "module 2"
+    app.module3 = ({module1,module2})=> ()=> module1()
+    expect(app.module3()).to.equal("module 1")
+  })
+
 })

@@ -43,3 +43,7 @@ Using require or import in all the files in your project has a few issues.
 ## Usage
 
 Just copy the index.js file into your project. I'd add this to npm, but for so little code it's hardly worth it.
+
+## Issues
+
+This doesn't currently detect or handle circuluar dependencies.
