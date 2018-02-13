@@ -1,16 +1,16 @@
 # Injector
-
+[![Build Status](https://travis-ci.org/crisward/riot-grid.svg)](https://travis-ci.org/crisward/injector)
 
 ## What is it?
 
-Quick proof of concept, creating a very simple dependency injection system using proxy objects and object destructuring. 
+Creating a very simple dependency injection system using proxy objects and object destructuring. 
 
 ## What does it do?
 
 Basically assign all of your dependencies to an object.
 eg.
 ```javascript
-const app = require("../index")
+const app = require("../index")()
 app.module1 = ()=> "my module"
 app.module2 = ()=> "my other module"
 ```
@@ -32,6 +32,26 @@ app.module = ({moment})=> ()=> moment().format("ddd, hA");
 app.module()
 // returns eg "Sun, 3PM"
 ```
+
+## Connecting all NPM Dependencies
+
+When you setup your app, you could pass in all your  node libraries at the begining. 
+eg.
+
+```javascript
+const injector = require("../index")
+let app = injector({
+  moment:requre("moment"),
+  sequelize:requre("sequelize")
+})
+
+app.mything = ({moment,sequelize})=>(
+ ()=>{
+   // your code here...
+ }
+)
+```
+
 
 ## Why?
 
