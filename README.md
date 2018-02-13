@@ -3,53 +3,34 @@
 
 ## What is it?
 
-Quick proof of concept, creating a very simple dependency injection system using proxy objects and object destructuring. See the `loader.js` file for the very simple concept. 
+Quick proof of concept, creating a very simple dependency injection system using proxy objects and object destructuring. 
 
 ## What does it do?
 
-Basically give a list of names and paths, then all your modules will get loaded. 
+Basically assign all of your dependencies to an object.
+eg.
+```javascript
+const app = require("../index")
+app.module1 = ()=> "my module"
+app.module2 = ()=> "my other module"
+```
 
-If you don't want to wrap the function in an injector, perhaps when loading npm modules just add `lib:true`
+Each dependency needs to be wrapped in a function when contains one destructuring object.
+eg.
+```javascript
+app.module3 = ({module1,module2})=> ()=> console.log(module1,module2)
+app.module3()
+// outputs "my module my other module"
+```
+
+If you don't want to wrap the function in an injector, perhaps when loading npm modules just prefix the key with an underscore.
 
 ie.
 ```javascript
-let app = loader({
-  Module1:{path:"./modules/module1"},
-  module2:{path:"./modules/module2"},
-  module3:{path:"./modules/module3"},
-  moment:{path:"moment",lib:true},
-})
-
-new app.Module1()
-```
-
-Your modules look like this
-
-```javascript
-
-module.exports = ({Module2,moment})=>(
-  class Module1{
-    constructor(){
-      console.log("Module1")
-      module2()
-    }
-  }
-)
-
-or 
-
-module.exports = ({Module1})=>(
-  function module2(){
-    console.log("Module2")
-  }
-)
-
-```
-
-You can also add more libraries with
-
-```
-app.module4 = {path:"./modules/module4"}
+app._moment = require("moment")
+app.module = ({moment})=> ()=> moment().format("ddd, hA"); 
+app.module()
+// returns eg "Sun, 3PM"
 ```
 
 ## Why?
@@ -61,4 +42,4 @@ Using require or import in all the files in your project has a few issues.
 
 ## Usage
 
-Just copy the loader.js file into your project. I'd add this to npm, but for so little code it's hardly worth it.
+Just copy the index.js file into your project. I'd add this to npm, but for so little code it's hardly worth it.
